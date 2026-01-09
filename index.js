@@ -174,12 +174,39 @@ There are only two valid output types:
   }
 });
 
+app.get("/test-elevenlabs", async (req, res) => {
+  try {
+    const response = await fetch("https://api.elevenlabs.io/v1/voices", {
+      headers: {
+        "xi-api-key": elevenLabsApiKey,
+      },
+    });
+    
+    if (!response.ok) {
+      return res.status(response.status).json({ 
+        error: "API key invalid", 
+        status: response.status 
+      });
+    }
+    
+    const data = await response.json();
+    res.json({ success: true, voiceCount: data.voices.length });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // --- ENDPOINT 2: TTS (Matches File 1: playAudio /tts?message=...) ---
 app.get("/tts", async (req, res) => {
   const message = req.query.message;
 
   if (!message) {
     return res.status(400).send("Message query parameter is required");
+  }
+
+  // Check if API key exists
+  if (!elevenLabsApiKey) {
+    return res.status(500).send( "TTS service not configured" );
   }
 
   try {
