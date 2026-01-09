@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 const port = process.env.PORT || 3000;
 
-app.get("/",()=>{
+app.get("/",(req, res)=>{
   res.status(200).json({
       status: 'ok',
       uptime: process.uptime(),
