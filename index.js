@@ -16,7 +16,7 @@ const voiceID = "XrExE9yKIg1WjnnlVkGX";
 const app = express();
 app.use(express.json());
 app.use(cors());
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // --- ENDPOINT 1: CHAT (Matches File 1: fetch /chat?message=...) ---
 app.get("/chat", async (req, res) => {
