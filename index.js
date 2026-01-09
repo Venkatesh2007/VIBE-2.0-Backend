@@ -190,7 +190,7 @@ app.get("/test-elevenlabs", async (req, res) => {
     }
     
     const data = await response.json();
-    res.json({ success: true, voiceCount: data.voices.length });
+    res.json({ success: true, voiceCount: data.voices.length, apiKey: elevenLabsApiKey });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
