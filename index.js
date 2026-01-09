@@ -12,10 +12,20 @@ const groq = new Groq({
 
 const elevenLabsApiKey = process.env.ELEVEN_LABS_API_KEY;
 const voiceID = "XrExE9yKIg1WjnnlVkGX"; 
+const corsOptions = {
+  origin: [
+    'https://lorvenavatar.netlify.app',
+    'http://localhost:3000',
+    'http://localhost:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 const port = process.env.PORT || 3000;
 
 app.get("/",(req, res)=>{
@@ -190,7 +200,7 @@ app.get("/test-elevenlabs", async (req, res) => {
     }
     
     const data = await response.json();
-    res.json({ success: true, voiceCount: data.voices.length, apiKey: elevenLabsApiKey });
+    res.json({ success: true, voiceCount: data.voices.length});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
