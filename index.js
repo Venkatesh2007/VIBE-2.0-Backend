@@ -18,6 +18,14 @@ app.use(express.json());
 app.use(cors());
 const port = process.env.PORT || 3000;
 
+app.get("/",()=>{
+  res.status(200).json({
+      status: 'ok',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString()
+    });
+});
+
 // --- ENDPOINT 1: CHAT (Matches File 1: fetch /chat?message=...) ---
 app.get("/chat", async (req, res) => {
   const userMessage = req.query.message;
